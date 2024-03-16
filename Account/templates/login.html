@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود</title>
+    <link rel="stylesheet" href="{% static 'css/output/main.css' %}">
+</head>
+<body>
+<main class="flex items-center justify-center gap-16 w-screen h-screen overflow-hidden md:px-8 lg:px-32">
+    <section class="hidden md:block">
+        <img src="{% static 'img/landing.svg' %}" class="w-[500px] h-[500px]">
+    </section>
+    <section dir="rtl" class="space-y-24 md:w-1/2">
+        <h2 class="text-5xl font-bold text-center w-full">خوش آمدید</h2>
+        <form class="space-y-24" method="post">
+            {% csrf_token %}
+            <div class="flex justify-center gap-y-2 flex-col">
+                <label class="font-bold text-lg">نام کاربری</label>
+                <input type="text" name="username" placeholder="لطفا نام کاربری خود را وارد نمایید"
+                       class="border border-gray-300 text-gray-300 pt-2 pb-3 px-2  rounded-lg">
+            </div>
+            <div class="flex justify-center gap-y-2 flex-col">
+                <label class="font-bold text-lg">رمز عبور</label>
+                <input type="password" name="password" placeholder="لطفا رمز عبور خود را وارد نمایید"
+                       class="border border-gray-300 text-gray-300 pt-2 pb-3 px-2  rounded-lg">
+            </div>
+            <div class="w-full flex items-center justify-center">
+                <button class=" bg-primary text-white pt-1 pb-3 px-6 w-2/3 min-w-80 rounded-lg text-xl">ورود</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
