@@ -3,6 +3,7 @@ from . import views
 
 # URL patterns for the Account app
 urlpatterns = [
+    path("", views.home, name="home_name"),
     path("register_needy/", views.register_needy, name="register_needy_name"),
 
 ]

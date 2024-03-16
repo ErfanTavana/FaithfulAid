@@ -22,6 +22,7 @@ class Needy(models.Model):
 
     name = models.CharField(max_length=50, blank=True, null=True, verbose_name='نام')
     last_name = models.CharField(max_length=50, blank=True, null=True, verbose_name='نام خانوادگی')
+    full_name = models.CharField(max_length=100, blank=True, null=True)
     father_name = models.CharField(max_length=50, blank=True, null=True, verbose_name='نام پدر')
     national_code = models.CharField(max_length=10, blank=True, null=True, verbose_name='کد ملی')
     gender = models.CharField(max_length=10, blank=True, null=True, choices=GENDER_CHOICES, verbose_name='جنسیت')
@@ -37,5 +38,9 @@ class Needy(models.Model):
     route_code = models.IntegerField(default=0, blank=True, null=True, verbose_name='کد مسیر')
     address = models.TextField(blank=True, null=True, verbose_name='آدرس دقیق')
 
+    def save(self, *args, **kwargs):
+        # حذف فواصل چپ و راست از نام دسته بندی
+        self.full_name = self.name + ' ' + self.last_name
+        super().save(*args, **kwargs)
     def __str__(self):
         return f'{self.name} {self.last_name}'

@@ -4,6 +4,60 @@ from .models import Needy
 from django.shortcuts import render, redirect
 
 
+def home(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    if request.method == 'GET':
+        data = request.GET
+        street_name = data.get('street_name', None)
+        route_code = data.get('route_code', None)
+        if route_code == None and street_name == None:
+            needy = Needy.objects.all()
+        elif street_name != None:
+            needy = Needy.objects.filter(street_name=street_name)
+        elif route_code != None:
+            needy = Needy.objects.filter(route_code=route_code)
+        else:
+            needy = Needy.objects.all()
+        # تعداد خانواده
+        familyCount = needy.count()
+        # تعداد افراد
+        personCount = 0
+        for family in needy:
+            personCount += family.family_members_count
+        # تعداد سرپرست زن
+        numberOfFemaleGuardians = needy.filter(gender='زن').count()
+        # تعداد سرپرست مرد
+        numberOfMaleGuardians = needy.filter(gender='مرد').count()
+        # تعداد تشیع
+        ShiaCount = needy.filter(religion='تشیع').count()
+        # تعداد تسنن
+        SunniCount = needy.filter(religion='تسنن').count()
+        # تعداد متاهل
+        MarriedCount = needy.filter(marital_status='متاهل').count()
+        # تعداد مجرد
+        SingleCount = needy.filter(marital_status='مجرد').count()
+        # تعداد بیوه
+        WidowCount = needy.filter(marital_status='بیوه').count()
+        # تعداد مطلقه
+        numberOfDivorcedWomen = needy.filter(marital_status='مطلقه').count()
+        statistics = {
+            'needy': needy,
+            'familyCount': familyCount,
+            'personCount': personCount,
+            'numberOfFemaleGuardians': numberOfFemaleGuardians,
+            'numberOfMaleGuardians': numberOfMaleGuardians,
+            'ShiaCount': ShiaCount,
+            'SunniCount': SunniCount,
+            'MarriedCount': MarriedCount,
+            'SingleCount': SingleCount,
+            'WidowCount': WidowCount,
+            'numberOfDivorcedWomen': numberOfDivorcedWomen,
+
+        }
+        return render(request, 'index.html', statistics)
+
+
 def register_needy(request):
     if request.user.is_authenticated == False:
         return redirect('login')

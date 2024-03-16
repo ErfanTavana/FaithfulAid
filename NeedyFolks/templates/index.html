@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آمار</title>
+    <link rel="stylesheet" href="{% static 'css/output/main.css' %}">
+
+    <style>
+        .openFilterMenu {
+            height: 90px !important;
+            border-bottom: 1px solid rgba(0, 0, 0, .2);
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body class="w-screen min-h-screen overflow-x-hidden  pt-2">
+<header class="px-1 lg:px-4">
+    <!-- head and title -->
+    <section class="flex items-center justify-between flex-col-reverse gap-4 lg:flex-row">
+        <div class="flex md:items-center flex-col md:flex-row justify-between w-full lg:w-max px-10 lg:px-0 gap-8">
+            <div class="flex items-center h-12">
+                <button>
+                    <img src="{% static 'img/search.svg' %}">
+                </button>
+                <input type="text" placeholder="کد ملی یا نام و نام خانوادگی" class="h-full w-60 px-1 rounded-r-lg"
+                       dir="rtl">
+            </div>
+            <div class="relative flex items-center h-12 cursor-pointer w-max" id="filterBox">
+                <img src="{% static 'img/filter.svg' %}">
+                <div class="text-gray-500 text-end w-60">مرتب سازی کاربران</div>
+                <ul class="absolute top-full left-0 w-full pt-1 h-0 overflow-hidden transition-all z-30" dir="rtl"
+                    id="filterMenu">
+                    <li class="hover:bg-primary-light p-2 rounded-lg cursor-pointer">
+                        <div>
+                            بر اساس کد مسیر
+                        </div>
+                    </li>
+                    <li class="hover:bg-primary-light p-2 rounded-lg cursor-pointer">
+                        <div>
+                            بر اساس نام خیابان
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex items-center flex-col-reverse sm:flex-row justify-between w-full lg:w-max px-10 lg:px-0 gap-4">
+            <a href="{% url 'register_needy_name' %}"
+               class="flex items-center gap-2 border-2 border-primary text-primary px-2 pt-1 pb-2 rounded-lg text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="relative -bottom-0.5"
+                     viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M11 13H6q-.425 0-.712-.288T5 12q0-.425.288-.712T6 11h5V6q0-.425.288-.712T12 5q.425 0 .713.288T13 6v5h5q.425 0 .713.288T19 12q0 .425-.288.713T18 13h-5v5q0 .425-.288.713T12 19q-.425 0-.712-.288T11 18z"/>
+                </svg>
+                <span>افزودن نیازمند جدید</span>
+            </a>
+            <h2 class="text-xl md:text-xl font-bold">آمار لیست نیازمندان</h2>
+        </div>
+    </section>
+    <!-- cards -->
+    <section
+            class="grid lg:grid-cols-5 md:grid-cols-4 max-[790px]:grid-cols-3 max-[670px]:grid-cols-2 max-[550px]:grid-cols-1 mt-10 gap-4"
+            dir="rtl">
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/family-number.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ familyCount }}</p>
+                <p class="text-sm opacity-80">تعداد خانواده</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/people.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ personCount }}</p>
+                <p class="text-sm opacity-80">تعداد افراد</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/women.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ numberOfFemaleGuardians }}</p>
+                <p class="text-sm opacity-80">تعداد سرپرست زن</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/men.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ numberOfMaleGuardians }}</p>
+                <p class="text-sm opacity-80">تعداد سرپرست مرد</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/tashi.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ ShiaCount }}</p>
+                <p class="text-sm opacity-80">تعداد تشیع</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/tasannon.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ SunniCount }}</p>
+                <p class="text-sm opacity-80">تعداد تسنن</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/maried.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ MarriedCount }}</p>
+                <p class="text-sm opacity-80">تعداد متاهل</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/single.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ SingleCount }}</p>
+                <p class="text-sm opacity-80">تعداد مجرد</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/bive.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ WidowCount }}</p>
+                <p class="text-sm opacity-80">تعداد بیوه</p>
+            </div>
+        </div>
+        <div class="flex gap-3 bg-white p-2 w-full rounded-xl mx-auto shadow">
+            <div>
+                <img src="{% static 'img/cut.svg' %}">
+            </div>
+            <div class="min-w-28">
+                <p class="text-xl font-bold">{{ numberOfDivorcedWomen }}</p>
+                <p class="text-sm opacity-80">تعداد مطلقه</p>
+            </div>
+        </div>
+
+    </section>
+</header>
+<main class="mt-10 h-full">
+    <section class="flex items-center h-20 py-4 px-10 gap-x-10 bg-white shadow-lg overflow-x-scroll" dir="rtl">
+        <p class="font-bold min-w-32">نام و نام خانوادگی</p>
+        <p class="font-bold min-w-32">تعداد اعضا</p>
+        <p class="font-bold min-w-32">شماره تماس</p>
+        <p class="font-bold min-w-32">کد مسیر</p>
+        <p class="font-bold min-w-32">نام خیابان</p>
+        <p class="font-bold min-w-32">آدرس</p>
+    </section>
+    {% for i in needy %}
+        <section class="h-full w-full mt-8 px-10 space-y-4 bg-white py-2">
+
+            <!-- row -->
+            <div class="w-full flex items-center justify-between text-black/80 gap-10 bg-white overflow-x-scroll"
+                 dir="rtl">
+
+                <div class="flex items-center gap-10">
+                    <div class="min-w-32">
+                        <p>{{ i.full_name }}</p>
+                    </div>
+                    <div class="min-w-32">
+                        <p>  {{ i.family_members_count }} </p>
+                    </div>
+                    <div class="min-w-32">
+                        <p>{{ i.phone_number }}</p>
+                    </div>
+                    <div class="min-w-32">
+                        <p> مسیر{{ i.route_code }}  </p>
+                    </div>
+                    <div class="min-w-32">
+                        <p>{{ i.street_name }}</p>
+                    </div>
+                    <div class="min-w-32 w-max">
+                        <p>{{ i.address }}</p>
+                    </div>
+                </div>
+                <a href="#" class="text-white bg-primary pt-2 pb-3 px-12 rounded-xl">جزئیات</a>
+            </div>
+
+        </section>
+    {% endfor %}
+
+</main>
+
+<!-- scripts -->
+<script>
+    const filterBox = document.querySelector("#filterBox");
+    const filterMenu = document.querySelector("#filterMenu");
+
+    filterBox.addEventListener("click", function () {
+        filterMenu.classList.toggle("openFilterMenu")
+    })
+</script>
+</body>
+</html>
