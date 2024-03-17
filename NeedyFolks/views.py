@@ -86,3 +86,65 @@ def register_needy(request):
         return render(request, 'form.html')
     else:
         return render(request, 'form.html')
+
+
+def details(request, id):
+    if request.user.is_authenticated == False:
+        return redirect('login')
+    if request.method == 'GET':
+        data = request.GET
+        needy_id = id
+        try:
+            needy = Needy.objects.get(id=needy_id)
+            statistics = {
+                'needy': needy,
+            }
+            return render(request, 'details.html', statistics)
+        except:
+            return redirect('home_name')
+
+
+def edit_needy(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        if request.method == 'POST':
+            data = request.POST
+            id = data.get('id')
+            print(id)
+            # دریافت نیازمند با استفاده از شناسه
+            needy = Needy.objects.get(id=id)
+            name = data.get('name').strip()
+            last_name = data.get('last_name').strip()
+            father_name = data.get('father_name').strip()
+            national_code = data.get('national_code').strip()
+            gender = data.get('gender').strip()
+            family_members_count = data.get('family_members_count').strip()
+            phone_number = data.get('phone_number').strip()
+            referrer_name = data.get('referrer_name').strip()
+            marital_status = data.get('marital_status').strip()
+            religion = data.get('religion').strip()
+            job = data.get('job').strip()
+            coverage = data.get('coverage').strip()
+            street_name = data.get('street_name').strip()
+            address = data.get('address').strip()
+            needy.name = name
+            needy.last_name = last_name
+            needy.father_name = father_name
+            needy.national_code = national_code
+            needy.gender = gender
+            needy.family_members_count = family_members_count
+            needy.phone_number = phone_number
+            needy.referrer_name = referrer_name
+            needy.marital_status = marital_status
+            needy.religion = religion
+            needy.job = job
+            needy.coverage = coverage
+            needy.street_name = street_name
+            needy.address = address
+            needy.save()
+            # هدایت کاربر به صفحه دیگر (مثلاً به صفحه جزئیات نیازمند)
+            return redirect('details_name', id=id)
+    except Exception as e:
+        print(e)
+        return redirect('home_name')

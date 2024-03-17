@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات نیازمند</title>
+    <link rel="stylesheet" href="{% static 'css/output/main.css' %}">
+</head>
+<body class="p-2 w-screen overflow-x-hidden">
+<h2 class="text-xl lg:text-3xl font-bold text-end">جزئیات نیازمند</h2>
+<form dir="rtl" method="post" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 lg:px-10"
+      action="{% url 'edit_needy_name' %}">
+    <input type="hidden" name="id" value="{{ needy.id }}">
+    {% csrf_token %}
+    <div class="w-full flex flex-col gap-1">
+
+        <label class="font-bold">نام</label>
+        <input type="text" name="name" value="{{ needy.name }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا نام را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">نام خانوادگی</label>
+        <input type="text" name="last_name" value="{{ needy.last_name }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا نام خانوادگی را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">نام پدر</label>
+        <input type="text" name="father_name" value="{{ needy.father_name }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا نام پدر را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">کد ملی</label>
+        <input type="text" name="national_code" value="{{ needy.national_code }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا کد ملی را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">جنسیت</label>
+        <select name="gender" class="border p-2 rounded-lg mt-2">
+            <option value="مرد" {% if needy.gender == 'مرد' %}selected{% endif %}>مرد</option>
+            <option value="زن" {% if needy.gender == 'زن' %}selected{% endif %}>زن</option>
+        </select>
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">تعداد اعضا</label>
+        <input name="family_members_count" type="number" value="{{ needy.family_members_count }}"
+               class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا تعداد اعضا را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-2">
+        <label class="font-bold">شماره تماس</label>
+        <input name="phone_number" type="text" value="{{ needy.phone_number }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا شماره تماس را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">معرف</label>
+        <input name="referrer_name" type="text" value="{{ needy.referrer_name }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا نام معرف را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">وضعیت تاهل</label>
+        <select name="marital_status" class="border p-2 rounded-lg mt-2">
+            <option value="مجرد" {% if needy.marital_status == 'مجرد' %}selected{% endif %}>مجرد</option>
+            <option value="متاهل" {% if needy.marital_status == 'متاهل' %}selected{% endif %}>متاهل</option>
+            <option value="بیوه" {% if needy.marital_status == 'بیوه' %}selected{% endif %}>بیوه</option>
+            <option value="مطلقه" {% if needy.marital_status == 'مطلقه' %}selected{% endif %}>مطلقه</option>
+        </select>
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">مذهب</label>
+        <select name="religion" class="border p-2 rounded-lg mt-2">
+            <option value="تشیع" {% if needy.religion == 'تشیع' %}selected{% endif %}>تشیع</option>
+            <option value="تسنن" {% if needy.religion == 'تسنن' %}selected{% endif %}>تسنن</option>
+        </select>
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">شغل</label>
+        <input name="job" type="text" value="{{ needy.job }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا شغل را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">تحت پوشش</label>
+        <input type="text" value="{{ needy.coverage }}" name="coverage" class="border p-2 rounded-lg mt-2"
+               placeholder="تحت پوشش">
+    </div>
+    <div class="w-full flex flex-col gap-1">
+        <label class="font-bold">نام خیابان</label>
+        <input name="street_name" value="{{ needy.street_name }}" type="text" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا نام خیابان را وارد نمایید">
+    </div>
+    <div class="w-full flex flex-col gap-1 md:col-start-2 lg:col-end-4">
+        <label class="font-bold">ادرس</label>
+        <input name="address" type="text" value="{{ needy.address }}" class="border p-2 rounded-lg mt-2"
+               placeholder="لطفا آدرس را وارد نمایید">
+    </div>
+
+    <div class="w-full flex items-center justify-end flex-col-reverse md:flex-row col-start-1 md:col-end-3 lg:col-end-4 gap-8">
+        <a href="{% url 'home_name' %}">
+            <button class="pt-2 pb-3 rounded-lg border-2 border-primary text-primary px-16 w-full md:w-max"
+                    type="button">
+                کنسل
+            </button>
+        </a>
+        <button class="pt-2 pb-3 rounded-lg bg-primary text-white px-24 w-full md:w-max" type="submit">ویرایش
+            اطلاعات
+        </button>
+    </div>
+
+</form>
+</body>
+</html>

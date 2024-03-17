@@ -191,7 +191,8 @@
                         <p>{{ i.address }}</p>
                     </div>
                 </div>
-                <a href="#" class="text-white bg-primary pt-2 pb-3 px-12 rounded-xl">جزئیات</a>
+                <a href="{% url 'details_name' id=i.id %}" class="text-white bg-primary pt-2 pb-3 px-12 rounded-xl">جزئیات</a>
+
             </div>
 
         </section>

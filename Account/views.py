@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('https://soft98.ir/')
+        return redirect('home_name')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -15,7 +15,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            return redirect('https://soft98.ir/')
+            return redirect('home_name')
         else:
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {'error_message': 'نام کاربری یا رمز عبور اشتباه است'})
